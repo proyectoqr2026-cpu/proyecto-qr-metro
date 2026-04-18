@@ -155,10 +155,10 @@ body {
 /* 🔥 SOLUCIÓN 3 APLICADA */
 .nombre {
   font-size: 14px;
-  height: 40px;
+  min-height: 60px;
   overflow: hidden;
   display: -webkit-box;
-  -webkit-line-clamp: 2;
+  -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
 }
 
@@ -223,8 +223,13 @@ body {
     font-size: 12px;
     padding: 6px 10px;
   }
+  
+/* 🔥 NUEVO: optimización del nombre en móvil */
+  .nombre {
+    -webkit-line-clamp: 2;
+    min-height: 40px;
+  }
 }
-
 </style>
 </head>
 
@@ -372,7 +377,7 @@ imagenBarcode = `
         ${badge}
         <img src="${imagen}" loading="lazy">
         <div class="info">
-          <div class="nombre">${p.nombre}</div>
+          <div class="nombre" title="${p.nombre}">${p.nombre}</div>
           <div class="precio">S/ ${precio.toFixed(2)}</div>
           <div class="oferta">S/ ${oferta.toFixed(2)}</div>
 
