@@ -132,6 +132,19 @@ body {
   padding: 10px;
 }
 
+  /* 🔥 NUEVO: contenedor de código de barras */
+.barcode-box {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+/* 🔥 NUEVO: imagen del código */
+.barcode-box img {
+  width: 100%;
+  max-width: 220px;
+  height: auto;
+}
 
 /* INFO */
 .info {
@@ -291,20 +304,16 @@ function render(lista) {
 
       let imagenBarcode = "";
 
-      // 🔥 CAMBIO: centrar código de barras
-if (p.codigo.startsWith("http")) {
-  imagenBarcode = `
-    <div style="text-align:center;">
-      <img src="${p.codigo}" width="180">
-    </div>
-  `;
-} else {
-  imagenBarcode = `
-    <div style="text-align:center;">
-      <img src="https://barcode.tec-it.com/barcode.ashx?data=${p.codigo}&code=Code128" width="180">
-    </div>
-  `;
-}
+     // 🔥 SOLUCIÓN FINAL: SIEMPRE MISMO DISEÑO (centrado + responsive)
+let urlBarcode = p.codigo.startsWith("http")
+  ? p.codigo
+  : `https://barcode.tec-it.com/barcode.ashx?data=${p.codigo}&code=Code128`;
+
+imagenBarcode = `
+  <div class="barcode-box">
+    <img src="${urlBarcode}">
+  </div>
+`;
 
       // 🔥 CAMBIO: botón más vendedor
       botonCupon = `<button class="btn-cupon" data-index="${index}" data-producto="${p.nombre.replace(/"/g, '&quot;')}">
