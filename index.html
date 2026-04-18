@@ -230,7 +230,11 @@ function render(lista) {
     let botonCupon = "";
 let cuponHTML = "";
 
-if (p.cupon === "SI" && p.codigo) {
+if (
+  p.cupon === "SI" &&
+  p.codigo &&
+  p.codigo.toString().trim() !== ""
+) {
 
   let imagenBarcode = "";
 
@@ -307,6 +311,9 @@ setInterval(() => {
 
 function mostrarCupon(id) {
   let el = document.getElementById("cupon-" + id);
+
+  if (!el) return;
+
   el.style.display = (el.style.display === "none") ? "block" : "none";
 }
 </script>
