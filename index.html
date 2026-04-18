@@ -31,6 +31,11 @@ body {
   text-align: center;
 }
 
+.hero-content {
+  max-width: 400px;
+  margin: auto;
+}
+  
 .hero h1 {
   margin: 0;
   font-size: 24px;
@@ -78,7 +83,7 @@ body {
 /* GRID */
 .contenedor {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
   gap: 15px;
   padding: 15px;
 }
@@ -89,8 +94,10 @@ body {
   border-radius: 12px;
   overflow: hidden;
   box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-  transition: 0.2s;
-  position: relative; /* 🔥 NECESARIO */
+  position: relative;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+
+  will-change: transform;
 }
 
 .badge {
@@ -103,7 +110,7 @@ body {
   left: 10px;
   border-radius: 5px;
   font-weight: bold;
-  animation: parpadeo 2s infinite;
+  animation: parpadeo 1.5s infinite;
 }
 
 @keyframes parpadeo {
@@ -113,21 +120,18 @@ body {
 }
 
 .card:hover {
-  transform: scale(1.03);
+  transform: translateY(-5px);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.2);
 }
 
 .card img {
   width: 100%;
-  height: 180px;
-  object-fit: contain; /* 🔥 mantiene proporción */
-  background: white;
+  aspect-ratio: 1 / 1;
+  object-fit: contain;
+  background: #fff;
+  padding: 10px;
 }
 
-@media (max-width: 600px) {
-  .card img {
-    height: 140px;
-  }
-}
 
 /* INFO */
 .info {
@@ -182,6 +186,9 @@ body {
   background: #b8001c;
   transform: scale(1.02);
 }
+  .btn-cupon:active {
+  transform: scale(0.95);
+}
   
 .ahorro {
   color: green;
@@ -194,8 +201,14 @@ body {
     grid-template-columns: repeat(2, 1fr);
   }
 
-  .card img {
-    height: 140px;
+  /* 👇 AGREGA ESTO AQUÍ */
+  .filtros {
+    flex-wrap: wrap;
+  }
+
+  .filtros button {
+    font-size: 12px;
+    padding: 6px 10px;
   }
 }
 
