@@ -52,15 +52,6 @@ body {
   font-size: 12px;
 }
 
-/* HEADER viejo (puedes dejarlo o eliminarlo luego) */
-header {
-  background: #ffcc00;
-  color: black;
-  padding: 15px;
-  text-align: center;
-  font-size: 22px;
-  font-weight: bold;
-}
 
 /* FILTROS */
 .filtros {
@@ -174,7 +165,24 @@ header {
   padding: 5px;
   border-radius: 5px;
 }
+.btn-cupon {
+  width: 100%;
+  margin-top: 8px;
+  padding: 8px;
+  background: #e60023;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s;
+}
 
+.btn-cupon:hover {
+  background: #b8001c;
+  transform: scale(1.02);
+}
+  
 .ahorro {
   color: green;
   font-size: 13px;
@@ -273,7 +281,7 @@ if (
     imagenBarcode = `<img src="https://barcode.tec-it.com/barcode.ashx?data=${p.codigo}&code=Code128" width="180">`;
   }
 
- botonCupon = `<button class="btn-cupon" data-index="${index}" data-producto="${p.nombre.replace(/"/g, '&quot;')}" style="margin-top:8px; padding:6px; background:#e60023; color:white; border:none; border-radius:5px;">
+ botonCupon = `<button class="btn-cupon" data-index="${index}" data-producto="${p.nombre.replace(/"/g, '&quot;')}">
 Ver cupón
 </button>`;
   
