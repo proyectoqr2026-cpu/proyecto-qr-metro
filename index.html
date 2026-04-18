@@ -271,73 +271,104 @@ function cargarProductos() {
   .catch(err => console.error("Error en fetch:", err));
 }
 
-// 🎯 RENDER
+// 🎯 RENDER MEJORADO (CON MARKETING)
 function render(lista) {
   const contenedor = document.getElementById("contenedor");
   contenedor.innerHTML = "";
 
+  // 🔥 NUEVO: ordenar por mayor descuento
+  lista.sort((a, b) => (b.oferta - a.oferta));
+
   lista.forEach((p, index) => {
-       
+
     let botonCupon = "";
-let cuponHTML = "";
+    let cuponHTML = "";
 
-if (
-  (p.cupon || "").toString().trim().toUpperCase() === "SI" &&
-  (p.codigo || "").toString().trim() !== ""
-) {
+    if (
+      (p.cupon || "").toString().trim().toUpperCase() === "SI" &&
+      (p.codigo || "").toString().trim() !== ""
+    ) {
 
-  let imagenBarcode = "";
+      let imagenBarcode = "";
 
-  if (p.codigo.startsWith("http")) {
-    imagenBarcode = `<img src="${p.codigo}" width="180">`;
-  } else {
-    imagenBarcode = `<img src="https://barcode.tec-it.com/barcode.ashx?data=${p.codigo}&code=Code128" width="180">`;
-  }
+      if (p.codigo.startsWith("http")) {
+        imagenBarcode = `<img src="${p.codigo}" width="180">`;
+      } else {
+        imagenBarcode = `<img src="https://barcode.tec-it.com/barcode.ashx?data=${p.codigo}&code=Code128" width="180">`;
+      }
 
- botonCupon = `<button class="btn-cupon" data-index="${index}" data-producto="${p.nombre.replace(/"/g, '&quot;')}">
-Ver cupón
-</button>`;
-  
-  cuponHTML = `
-    <div id="cupon-${index}" style="display:none; margin-top:10px;">
-    ${imagenBarcode}
-    <p style="font-size:12px;">Muestra este código en caja</p>
-  </div>
-  `;
-}
+      // 🔥 CAMBIO: botón más vendedor
+      botonCupon = `<button class="btn-cupon" data-index="${index}" data-producto="${p.nombre.replace(/"/g, '&quot;')}">
+      🔥 Obtener descuento
+      </button>`;
 
-let precio = parseFloat((p.precio || "0").replace(",", ".")) || 0;
-  let oferta = parseFloat((p.oferta || "0").replace(",", ".")) || 0;
-
-  let ahorro = (precio > oferta) ? (precio - oferta) : 0;
-
-  let ahorroHTML = (ahorro > 0)
-    ? `<div class="ahorro">💸 Ahorras S/ ${ahorro.toFixed(2)}</div>`
-    : '';
-
-  let badge = (precio > oferta)
-    ? '<div class="badge">OFERTA</div>'
-    : '';
-
-  let imagen = (p.imagen && p.imagen.startsWith("http"))
-    ? p.imagen
-    : "https://via.placeholder.com/300";
-
-  contenedor.innerHTML += `
-    <div class="card">
-      ${badge}
-      <img src="${imagen}" loading="lazy">
-      <div class="info">
-        <div class="nombre">${p.nombre}</div>
-        <div class="precio">S/ ${precio.toFixed(2)}</div>
-        <div class="oferta">S/ ${oferta.toFixed(2)}</div>
-        ${ahorroHTML}
-        ${botonCupon}
-        ${cuponHTML}
+      cuponHTML = `
+        <div id="cupon-${index}" style="display:none; margin-top:10px;">
+        ${imagenBarcode}
+        <p style="font-size:12px;">Muestra este código en caja</p>
       </div>
-    </div>
-  `;
-});
+      `;
+    }
+
+    let precio = parseFloat((p.precio || "0").replace(",", ".")) || 0;
+    let oferta = parseFloat((p.oferta || "0").replace(",", ".")) || 0;
+
+    let ahorro = (precio > oferta) ? (precio - oferta) : 0;
+
+    // 🔥 CAMBIO: texto más emocional
+    let ahorroHTML = (ahorro > 0)
+      ? `<div class="ahorro">💸 Te ahorras S/ ${ahorro.toFixed(2)}</div>`
+      : '';
+
+    // 🔥 NUEVO: cálculo de porcentaje
+    let descuento = (precio > 0)
+      ? Math.round(((precio - oferta) / precio) * 100)
+      : 0;
+
+    // 🔥 CAMBIO: badge con % (más vendedor)
+    let badge = (precio > oferta)
+      ? `<div class="badge">🔥 -${descuento}%</div>`
+      : '';
+
+    let imagen = (p.imagen && p.imagen.startsWith("http"))
+      ? p.imagen
+      : "https://via.placeholder.com/300";
+
+    // 🔥 NUEVO: urgencia
+    let urgenciaHTML = `<div style="font-size:11px; color:red;">
+    ⏰ Solo por hoy
+    </div>`;
+
+    // 🔥 NUEVO: prueba social
+    let socialHTML = `<div style="font-size:11px; color:#555;">
+    🔥 Alta demanda
+    </div>`;
+
+    // 🔥 NUEVO: confianza
+    let confianzaHTML = `<div style="font-size:10px; color:#777;">
+    ✔ Válido en tienda
+    </div>`;
+
+    contenedor.innerHTML += `
+      <div class="card">
+        ${badge}
+        <img src="${imagen}" loading="lazy">
+        <div class="info">
+          <div class="nombre">${p.nombre}</div>
+          <div class="precio">S/ ${precio.toFixed(2)}</div>
+          <div class="oferta">S/ ${oferta.toFixed(2)}</div>
+
+          ${ahorroHTML}
+          ${urgenciaHTML}
+          ${socialHTML}
+
+          ${botonCupon}
+          ${confianzaHTML}
+          ${cuponHTML}
+        </div>
+      </div>
+    `;
+  });
 }
 
 
