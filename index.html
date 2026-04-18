@@ -17,13 +17,42 @@ gtag('config', 'G-YV98SYCLSV');
 </script>
 
 <style>
+  
 body {
   font-family: Arial, sans-serif;
   margin: 0;
   background: #f5f5f5;
 }
 
-/* HEADER */
+/* 🔥 HERO (AGREGAR AQUÍ) */
+.hero {
+  background: linear-gradient(90deg, #ffcc00, #ff9900);
+  padding: 22px 10px;
+  text-align: center;
+}
+
+.hero h1 {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 800;
+}
+
+.hero p {
+  margin: 5px 0;
+  font-size: 14px;
+}
+
+.badge-qr {
+  display: inline-block;
+  margin-top: 8px;
+  background: #e60023;
+  color: white;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+}
+
+/* HEADER viejo (puedes dejarlo o eliminarlo luego) */
 header {
   background: #ffcc00;
   color: black;
@@ -167,11 +196,13 @@ header {
 
 <body>
 
-<header>🔥 Ofertas en Mascotas - Solo en esta sección</header>
-
-<div style="text-align:center; padding:5px; font-size:14px;">
-Escanea y aprovecha las ofertas disponibles aquí 🛒
-</div>
+<header class="hero">
+  <div class="hero-content">
+    <h1>🔥 Ofertas Exclusivas 🐶🐱</h1>
+    <p>Escanea y usa tu cupón en caja para ahorrar hoy</p>
+    <span class="badge-qr">EXCLUSIVO QR</span>
+  </div>
+</header>
 
 <div class="filtros">
   <button onclick="filtrar('Todos')">Todos</button>
