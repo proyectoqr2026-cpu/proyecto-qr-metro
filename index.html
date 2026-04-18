@@ -291,11 +291,20 @@ function render(lista) {
 
       let imagenBarcode = "";
 
-      if (p.codigo.startsWith("http")) {
-        imagenBarcode = `<img src="${p.codigo}" width="180">`;
-      } else {
-        imagenBarcode = `<img src="https://barcode.tec-it.com/barcode.ashx?data=${p.codigo}&code=Code128" width="180">`;
-      }
+      // 🔥 CAMBIO: centrar código de barras
+if (p.codigo.startsWith("http")) {
+  imagenBarcode = `
+    <div style="text-align:center;">
+      <img src="${p.codigo}" width="180">
+    </div>
+  `;
+} else {
+  imagenBarcode = `
+    <div style="text-align:center;">
+      <img src="https://barcode.tec-it.com/barcode.ashx?data=${p.codigo}&code=Code128" width="180">
+    </div>
+  `;
+}
 
       // 🔥 CAMBIO: botón más vendedor
       botonCupon = `<button class="btn-cupon" data-index="${index}" data-producto="${p.nombre.replace(/"/g, '&quot;')}">
