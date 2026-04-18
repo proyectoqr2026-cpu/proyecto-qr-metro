@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Tienda de Mascotas</title>
 
+<script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
 <!-- Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-YV98SYCLSV"></script>
 <script>
@@ -192,30 +193,28 @@ function cargarProductos() {
   .then(res => res.text())
   .then(csv => {
 
-    const filas = csv.trim().split(/\r?\n/);
-    const separador = filas[0].includes(";") ? ";" : ",";
+    Papa.parse(csv, {
+      header: true,
+      skipEmptyLines: true,
+      complete: function(results) {
 
-    productos = filas.slice(1).map(fila => {
-      const c = fila.split(separador);
+        productos = results.data.map(p => ({
+          nombre: (p.nombre || "").trim(),
+          precio: (p.precio || "0").trim(),
+          oferta: (p.oferta || "0").trim(),
+          imagen: (p.imagen && p.imagen.startsWith("http")) ? p.imagen : "https://via.placeholder.com/300",
+          categoria: (p.categoria || "").trim(),
+          estado: (p.estado || "SI").toUpperCase().trim(),
+          fecha_fin: (p.fecha_fin || "").trim(),
+          cupon: (p.cupon || "NO").toUpperCase().trim(),
+          codigo: (p.codigo || "").toString().trim()
+        }))
+        .filter(p => p.estado === "SI");
 
-      if (c.length < 9) return null;
+        render(productos);
+      }
+    });
 
-      return {
-         nombre: c[0]?.trim() || "",
-         precio: c[1]?.trim() || "0",
-         oferta: c[2]?.trim() || "0",
-         imagen: (c[3] && c[3].startsWith("http")) ? c[3] : "https://via.placeholder.com/300",
-         categoria: c[4]?.trim() || "",
-         estado: c[5]?.trim().toUpperCase() || "SI",
-         fecha_fin: c[6]?.trim() || "",
-         cupon: c[7]?.trim().toUpperCase() || "NO",
-         codigo: c[8]?.trim() || ""
-      };
-    })
-    .filter(p => p !== null)
-    .filter(p => p.estado === "SI");
-
-    render(productos);
   })
   .catch(err => console.error("Error en fetch:", err));
 }
