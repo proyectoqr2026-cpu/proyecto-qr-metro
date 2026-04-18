@@ -225,7 +225,7 @@ function render(lista) {
   const contenedor = document.getElementById("contenedor");
   contenedor.innerHTML = "";
 
-  lista.forEach(p => {
+  lista.forEach((p, index) => {
 
     let botonCupon = "";
 let cuponHTML = "";
@@ -240,10 +240,10 @@ if (p.cupon === "SI" && p.codigo) {
     imagenBarcode = `<img src="https://barcode.tec-it.com/barcode.ashx?data=${p.codigo}&code=Code128" width="180">`;
   }
 
-  botonCupon = `<button onclick="mostrarCupon('${p.codigo}-${p.nombre.replace(/\s+/g, '')}'); gtag('event','ver_cupon',{producto:'${p.nombre}'})" style="margin-top:8px; padding:6px; background:#e60023; color:white; border:none; border-radius:5px;">Ver cupón</button>`;
+  botonCupon = `<button onclick="mostrarCupon('${index}')" ; gtag('event','ver_cupon',{producto:'${p.nombre}'})" style="margin-top:8px; padding:6px; background:#e60023; color:white; border:none; border-radius:5px;">Ver cupón</button>`;
 
   cuponHTML = `
-    <div id="cupon-${p.codigo}-${p.nombre.replace(/\s+/g, '')}" style="display:none; margin-top:10px;">
+    <div id="cupon-${index}" style="display:none; margin-top:10px;">
     ${imagenBarcode}
     <p style="font-size:12px;">Muestra este código en caja</p>
   </div>
