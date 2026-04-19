@@ -240,9 +240,11 @@ body {
 
   /* 🔥 BOTÓN ACTIVO */
   .filtros button.activo {
-    background: #e60023;
-    color: white;
-  }
+  background: #e60023;
+  color: white;
+  transform: scale(1.08);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
 
   /* nombre producto */
   .nombre {
@@ -265,7 +267,7 @@ body {
 </header>
 
 <div class="filtros">
-  <button onclick="filtrar('Todos')">Todos</button>
+  <button class="activo" onclick="filtrar('Todos')">Todos</button>
   <button onclick="filtrar('Perro')">🐶 Perros</button>
   <button onclick="filtrar('Gato')">🐱 Gatos</button>
   <button onclick="filtrar('Cupon')">🎟️ Descuentos Exclusivos QR</button>
@@ -442,7 +444,11 @@ function filtrar(cat) {
 
  // 🚀 CARGA INICIAL
 cargarProductos();
-
+  
+setTimeout(() => {
+  filtrar("Todos");
+}, 300);
+  
 // 🔄 ACTUALIZACIÓN AUTOMÁTICA (3 minutos)
 setInterval(() => {
   cargarProductos();
