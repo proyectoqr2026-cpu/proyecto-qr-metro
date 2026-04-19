@@ -210,17 +210,20 @@ body {
 }
 
 @media (max-width: 600px) {
+
   .contenedor {
     grid-template-columns: repeat(2, 1fr);
   }
 
-  /* 🔥 NUEVO: categorías tipo app */
+  /* 🔥 MEJORA TOTAL FILTROS (AQUÍ ESTÁ LA MAGIA) */
   .filtros {
     display: flex;
     gap: 10px;
     overflow-x: auto;
-    padding: 10px;
+    padding: 10px 15px; /* 👈 mejora visual lateral */
     white-space: nowrap;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
   }
 
   .filtros::-webkit-scrollbar {
@@ -230,15 +233,23 @@ body {
   .filtros button {
     flex: 0 0 auto;
     font-size: 14px;
-    padding: 10px 14px;
-    border-radius: 20px;
+    padding: 10px 16px;
+    border-radius: 25px;
+    background: #eee;
   }
-  
-/* 🔥 NUEVO: optimización del nombre en móvil */
+
+  /* 🔥 BOTÓN ACTIVO */
+  .filtros button.activo {
+    background: #e60023;
+    color: white;
+  }
+
+  /* nombre producto */
   .nombre {
-  -webkit-line-clamp: 3;
-  min-height: 55px;
-}
+    -webkit-line-clamp: 3;
+    min-height: 55px;
+  }
+
 }
 </style>
 </head>
@@ -405,6 +416,19 @@ imagenBarcode = `
 
 
 function filtrar(cat) {
+
+  // 🔥 ACTIVAR BOTÓN SELECCIONADO
+  document.querySelectorAll(".filtros button").forEach(btn => {
+    btn.classList.remove("activo");
+
+    if (
+      btn.innerText.includes(cat) ||
+      (cat === "Todos" && btn.innerText === "Todos")
+    ) {
+      btn.classList.add("activo");
+    }
+  });
+
   if (cat === "Todos") {
     render(productos);
   } else if (cat === "Cupon") {
