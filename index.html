@@ -214,14 +214,24 @@ body {
     grid-template-columns: repeat(2, 1fr);
   }
 
-  /* 👇 AGREGA ESTO AQUÍ */
+  /* 🔥 NUEVO: categorías tipo app */
   .filtros {
-    flex-wrap: wrap;
+    display: flex;
+    gap: 10px;
+    overflow-x: auto;
+    padding: 10px;
+    white-space: nowrap;
+  }
+
+  .filtros::-webkit-scrollbar {
+    display: none;
   }
 
   .filtros button {
-    font-size: 12px;
-    padding: 6px 10px;
+    flex: 0 0 auto;
+    font-size: 14px;
+    padding: 10px 14px;
+    border-radius: 20px;
   }
   
 /* 🔥 NUEVO: optimización del nombre en móvil */
