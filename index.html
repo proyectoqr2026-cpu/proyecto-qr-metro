@@ -358,9 +358,11 @@ imagenBarcode = `
     }
 
     let precio = parseFloat((p.precio || "0").replace(",", ".")) || 0;
-    let oferta = parseFloat((p.oferta || "0").replace(",", ".")) || 0;
+    let oferta = parseFloat((p.oferta || "").replace(",", "."));
 
-    let ahorro = (precio > oferta) ? (precio - oferta) : 0;
+    let tieneDescuento = !isNaN(oferta) && oferta > 0 && precio > oferta;
+
+    let ahorro = tieneDescuento ? (precio - oferta) : 0;
 
     // 🔥 CAMBIO: texto más emocional
     let ahorroHTML = (ahorro > 0)
@@ -373,9 +375,9 @@ imagenBarcode = `
       : 0;
 
     // 🔥 CAMBIO: badge con % (más vendedor)
-    let badge = (precio > oferta)
-      ? `<div class="badge">🔥 -${descuento}%</div>`
-      : '';
+    let badge = tieneDescuento
+  ? `<div class="badge">🔥 -${descuento}%</div>`
+  : '';
 
     let imagen = (p.imagen && p.imagen.startsWith("http"))
       ? p.imagen
@@ -402,12 +404,18 @@ imagenBarcode = `
         <img src="${imagen}" loading="lazy">
         <div class="info">
           <div class="nombre" title="${p.nombre}">${p.nombre}</div>
-          <div class="precio">S/ ${precio.toFixed(2)}</div>
-          <div class="oferta">S/ ${oferta.toFixed(2)}</div>
 
-          ${ahorroHTML}
-                   
+          ${tieneDescuento 
+    ? `
+      <div class="precio">S/ ${precio.toFixed(2)}</div>
+      <div class="oferta">S/ ${oferta.toFixed(2)}</div>
+    `
+    : `
+      <div class="oferta">S/ ${precio.toFixed(2)}</div>
+    `
+  }
 
+          ${ahorroHTML}                 
           ${botonCupon}
           ${confianzaHTML}
           ${cuponHTML}
